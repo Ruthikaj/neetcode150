@@ -1,0 +1,99 @@
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        // Create a dummy node to handle edge cases and simplify the linked list creation.
+        ListNode* dummy = new ListNode();
+        ListNode* res = dummy;  // This points to the dummy node for tracking the result.
+
+        // Initialize 'total' to hold the sum of the current digits and 'carry' for carry-over.
+        int total = 0, carry = 0;
+
+        // Example:
+        // l1: 2 -> 4 -> 3
+        // l2: 5 -> 6 -> 4
+
+        while (l1 || l2 || carry) {  // Loop while either list has nodes or there’s a carry-over.
+            total = carry;  // Start with the carry from the previous step (initially 0).
+            
+            // If l1 is not null, add its value to total, and move to the next node in l1.
+            if (l1) {
+                total += l1->val;  // Adding l1->val to total.
+                l1 = l1->next;     // Move to the next node in l1.
+            }
+
+            // If l2 is not null, add its value to total, and move to the next node in l2.
+            if (l2) {
+                total += l2->val;  // Adding l2->val to total.
+                l2 = l2->next;     // Move to the next node in l2.
+            }
+
+            // Step 1:
+            // total = carry (0) + l1->val (2) + l2->val (5) = 7
+            // No carry needed since total is less than 10.
+            // num = 7, carry = 0.
+            
+            // Step 2:
+            // total = carry (0) + l1->val (4) + l2->val (6) = 10
+            // Carry is needed because total >= 10.
+            // num = 0, carry = 1 (carry the 1 to the next digit).
+
+            // Step 3:
+            // total = carry (1) + l1->val (3) + l2->val (4) = 8
+            // No carry needed.
+            // num = 8, carry = 0.
+
+            // 'num' is the last digit of 'total' (total % 10).
+            int num = total % 10;
+
+            // 'carry' is the carry for the next iteration (total / 10).
+            carry = total / 10;
+
+            // Create a new node for the current digit 'num' and link it to the result.
+            dummy->next = new ListNode(num);
+
+            // Move the dummy pointer to the newly created node.
+            dummy = dummy->next;
+
+            // Example after each iteration:
+            // Iteration 1: result list is 7
+            // Iteration 2: result list is 7 -> 0
+            // Iteration 3: result list is 7 -> 0 -> 8
+        }
+
+        // After the loop ends, return the result list starting from 'res->next'
+        // because 'res' points to the dummy node, and we want to skip it.
+        return res->next;
+    }
+};
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* dummy = new ListNode();
+        ListNode* res = dummy;
+        int total = 0, carry = 0;
+
+        while (l1 || l2 || carry) {
+            total = carry;
+
+            if (l1) {
+                total += l1->val;
+                l1 = l1->next;
+            }
+            if (l2) {
+                total += l2->val;
+                l2 = l2->next;
+            }
+
+            int num = total % 10;
+            carry = total / 10;
+            dummy->next = new ListNode(num);
+            dummy = dummy->next;
+        }
+
+        return res->next;        
+    }
+};
